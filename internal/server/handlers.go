@@ -420,6 +420,7 @@ type CreateAdminRequest struct {
 func (s *FiberServer) adminLoginHandler(c *fiber.Ctx) error {
 	var req AdminLoginRequest
 	if err := c.BodyParser(&req); err != nil {
+		fmt.Printf("login BodyParser error: %v | body=%q", err, string(c.Body()))
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request body"})
 	}
 
