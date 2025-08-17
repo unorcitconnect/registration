@@ -16,19 +16,19 @@ const AlumniMap = () => {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Sample data - in real app, this would come from the API
-  const sampleLocations: AlumniLocation[] = [
-    { id: 1, firstName: "John", lastName: "Doe", country: "Philippines", city: "Bacolod", latitude: 10.6767, longitude: 122.9500, year: 2020 },
-    { id: 2, firstName: "Jane", lastName: "Smith", country: "United States", city: "San Francisco", latitude: 37.7749, longitude: -122.4194, year: 2019 },
-    { id: 3, firstName: "Carlos", lastName: "Rodriguez", country: "Canada", city: "Toronto", latitude: 43.6532, longitude: -79.3832, year: 2018 },
-    { id: 4, firstName: "Maria", lastName: "Garcia", country: "Australia", city: "Sydney", latitude: -33.8688, longitude: 151.2093, year: 2021 },
-    { id: 5, firstName: "Ahmed", lastName: "Hassan", country: "United Kingdom", city: "London", latitude: 51.5074, longitude: -0.1278, year: 2017 },
-    { id: 6, firstName: "Yuki", lastName: "Tanaka", country: "Japan", city: "Tokyo", latitude: 35.6762, longitude: 139.6503, year: 2020 },
-    { id: 7, firstName: "Hans", lastName: "Mueller", country: "Germany", city: "Berlin", latitude: 52.5200, longitude: 13.4050, year: 2019 },
-    { id: 8, firstName: "Pierre", lastName: "Dubois", country: "France", city: "Paris", latitude: 48.8566, longitude: 2.3522, year: 2018 }
-  ]
-
   useEffect(() => {
+    // Sample data - in real app, this would come from the API
+    const sampleLocations: AlumniLocation[] = [
+      { id: 1, firstName: "John", lastName: "Doe", country: "Philippines", city: "Bacolod", latitude: 10.6767, longitude: 122.9500, year: 2020 },
+      { id: 2, firstName: "Jane", lastName: "Smith", country: "United States", city: "San Francisco", latitude: 37.7749, longitude: -122.4194, year: 2019 },
+      { id: 3, firstName: "Carlos", lastName: "Rodriguez", country: "Canada", city: "Toronto", latitude: 43.6532, longitude: -79.3832, year: 2018 },
+      { id: 4, firstName: "Maria", lastName: "Garcia", country: "Australia", city: "Sydney", latitude: -33.8688, longitude: 151.2093, year: 2021 },
+      { id: 5, firstName: "Ahmed", lastName: "Hassan", country: "United Kingdom", city: "London", latitude: 51.5074, longitude: -0.1278, year: 2017 },
+      { id: 6, firstName: "Yuki", lastName: "Tanaka", country: "Japan", city: "Tokyo", latitude: 35.6762, longitude: 139.6503, year: 2020 },
+      { id: 7, firstName: "Hans", lastName: "Mueller", country: "Germany", city: "Berlin", latitude: 52.5200, longitude: 13.4050, year: 2019 },
+      { id: 8, firstName: "Pierre", lastName: "Dubois", country: "France", city: "Paris", latitude: 48.8566, longitude: 2.3522, year: 2018 }
+    ]
+
     // Simulate API call
     const fetchAlumniLocations = async () => {
       setLoading(true)

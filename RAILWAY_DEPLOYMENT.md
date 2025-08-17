@@ -61,7 +61,7 @@ For Gmail SMTP:
 
 The project includes these Railway-specific files:
 
-- **`Dockerfile.railway`**: Multi-stage Docker build for Railway
+- **`Dockerfile.railway`**: Multi-stage Docker build for Railway with CGO disabled
 - **`railway.toml`**: Railway deployment configuration
 - **Updated `main.go`**: Now uses `PORT` environment variable
 - **Updated `routes.go`**: Serves frontend static files
@@ -145,6 +145,11 @@ Railway will:
 4. **Port Issues**
    - Railway automatically sets the `PORT` environment variable
    - Ensure your app uses `os.Getenv("PORT")` (already implemented)
+
+5. **Build Issues (CGO)**
+   - If you get "exit code: 137" or CGO-related errors
+   - The Dockerfile already disables CGO with `CGO_ENABLED=0`
+   - This creates a static binary that works in Alpine Linux
 
 ### Logs and Debugging:
 

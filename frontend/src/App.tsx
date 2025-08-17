@@ -21,7 +21,7 @@ function App() {
   const [showEventDetails, setShowEventDetails] = useState(false)
   const [showSponsorship, setShowSponsorship] = useState(false)
   const [showOutstandingAlumni, setShowOutstandingAlumni] = useState(false)
-  const [useMaterialDesign, setUseMaterialDesign] = useState(true)
+  const [useMaterialDesign] = useState(true)
   const [mapRefreshTrigger, setMapRefreshTrigger] = useState(0)
 
   // Check if admin is already logged in

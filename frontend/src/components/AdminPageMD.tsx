@@ -22,7 +22,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   Checkbox,
   FormControlLabel,
   CircularProgress,
