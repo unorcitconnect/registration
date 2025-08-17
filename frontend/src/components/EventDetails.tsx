@@ -450,22 +450,6 @@ Contact: unorcitconnect@gmail.com
           </div>
         </div>
 
-        {/* Event Production Requirements */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Event Production Requirements</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              "LED Wall", "Photo Booth", "360° Camera", "Lights & Sound System",
-              "Band / DJ / Live Performers", "Event Setup & Decorations", 
-              "Mobile Bar & Signature Cocktails", "Program Souvenir"
-            ].map((item, index) => (
-              <div key={index} className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 text-center">
-                <div className="text-sm font-medium text-gray-700">{item}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Gifts, Tokens and Awards */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Gifts, Tokens and Awards</h2>
