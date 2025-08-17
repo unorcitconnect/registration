@@ -69,7 +69,7 @@ const AdminPage = ({ onLogout }: AdminPageProps) => {
   const fetchDashboardData = async () => {
     setLoading(true)
     try {
-      const response = await fetch('http://localhost:8080/api/admin/dashboard')
+      const response = await fetch('/api/admin/dashboard')
       if (response.ok) {
         const data = await response.json()
         setAlumni(data.alumni || [])
@@ -85,7 +85,7 @@ const AdminPage = ({ onLogout }: AdminPageProps) => {
 
   const fetchSponsorships = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/sponsorships')
+      const response = await fetch('/api/sponsorships')
       if (response.ok) {
         const data = await response.json()
         setSponsorships(data.sponsorships || [])
@@ -97,7 +97,7 @@ const AdminPage = ({ onLogout }: AdminPageProps) => {
 
   const updateSponsorshipConfirmation = async (id: number, confirmed: boolean, feedback: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/sponsorships/${id}/confirm`, {
+      const response = await fetch(`/api/sponsorships/${id}/confirm`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -439,7 +439,7 @@ const AdminPage = ({ onLogout }: AdminPageProps) => {
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 {alumnus.Paid && alumnus.PaymentProofData && alumnus.PaymentProofData.length > 0 ? (
                                   <a
-                                    href={`http://localhost:8080/api/alumni/${alumnus.ID}/payment-proof`}
+                                    href={`/api/alumni/${alumnus.ID}/payment-proof`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-blue-600 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

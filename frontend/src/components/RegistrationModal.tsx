@@ -86,7 +86,7 @@ const RegistrationModal = ({ onClose }: RegistrationModalProps) => {
     const fetchCountries = async () => {
       setCountriesLoading(true)
       try {
-        const response = await fetch('http://localhost:8080/api/countries')
+        const response = await fetch('/api/countries')
         if (response.ok) {
           const data = await response.json()
           setCountries(data)
@@ -101,7 +101,7 @@ const RegistrationModal = ({ onClose }: RegistrationModalProps) => {
     const fetchCourses = async () => {
       setCoursesLoading(true)
       try {
-        const response = await fetch('http://localhost:8080/api/courses')
+        const response = await fetch('/api/courses')
         if (response.ok) {
           const data = await response.json()
           setCourses(data)
@@ -151,7 +151,7 @@ const RegistrationModal = ({ onClose }: RegistrationModalProps) => {
     setError('')
 
     try {
-      const response = await fetch('http://localhost:8080/api/otp/send', {
+      const response = await fetch('/api/otp/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ const RegistrationModal = ({ onClose }: RegistrationModalProps) => {
 
     try {
       console.log('Making fetch request to verify OTP...')
-      const response = await fetch('http://localhost:8080/api/otp/verify', {
+      const response = await fetch('/api/otp/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -315,16 +315,16 @@ const RegistrationModal = ({ onClose }: RegistrationModalProps) => {
       
       // Check if formData has an ID (which it clearly does based on the payload)
       if (formData.id) {
-        url = `http://localhost:8080/api/alumni/${formData.id}`
+        url = `/api/alumni/${formData.id}`
         method = 'PUT'
         console.log('Using UPDATE mode with formData.id:', formData.id)
       } else if (alumniId) {
-        url = `http://localhost:8080/api/alumni/${alumniId}`
+        url = `/api/alumni/${alumniId}`
         method = 'PUT'
         console.log('Using UPDATE mode with alumniId:', alumniId)
       } else {
         // Create new alumni
-        url = 'http://localhost:8080/api/alumni'
+        url = '/api/alumni'
         method = 'POST'
         console.log('Using CREATE mode')
       }

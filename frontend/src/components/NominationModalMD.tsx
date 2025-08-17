@@ -88,7 +88,7 @@ const NominationModalMD = ({ open, onClose }: NominationModalProps) => {
     setError('')
 
     try {
-      const response = await fetch(`http://localhost:8080/api/check-alumni-email?email=${encodeURIComponent(email)}`, {
+      const response = await fetch(`/api/check-alumni-email?email=${encodeURIComponent(email)}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ const NominationModalMD = ({ open, onClose }: NominationModalProps) => {
     setError('')
 
     try {
-      const response = await fetch('http://localhost:8080/api/nominations', {
+      const response = await fetch('/api/nominations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

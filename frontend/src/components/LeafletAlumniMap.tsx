@@ -105,7 +105,7 @@ const LeafletAlumniMap = ({ refreshTrigger }: LeafletAlumniMapProps) => {
 
   const fetchAlumni = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/alumni?page_size=1000')
+      const response = await fetch('/api/alumni?page_size=1000')
       if (response.ok) {
         const data = await response.json()
         setAlumni(data.alumni || [])

@@ -130,7 +130,7 @@ const RegistrationModalMD = ({ open, onClose, onSuccess }: RegistrationModalProp
     console.log('Fetching countries...')
     setCountriesLoading(true)
     try {
-      const response = await fetch('http://localhost:8080/api/countries')
+      const response = await fetch('/api/countries')
       console.log('Countries response status:', response.status)
       if (response.ok) {
         const data = await response.json()
@@ -150,7 +150,7 @@ const RegistrationModalMD = ({ open, onClose, onSuccess }: RegistrationModalProp
     console.log('Fetching courses...')
     setCoursesLoading(true)
     try {
-      const response = await fetch('http://localhost:8080/api/courses')
+      const response = await fetch('/api/courses')
       console.log('Courses response status:', response.status)
       if (response.ok) {
         const data = await response.json()
@@ -183,7 +183,7 @@ const RegistrationModalMD = ({ open, onClose, onSuccess }: RegistrationModalProp
     setError('')
 
     try {
-      const response = await fetch('http://localhost:8080/api/otp/send', {
+      const response = await fetch('/api/otp/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, purpose: 'registration' }),
@@ -223,7 +223,7 @@ const RegistrationModalMD = ({ open, onClose, onSuccess }: RegistrationModalProp
     setError('')
 
     try {
-      const response = await fetch('http://localhost:8080/api/otp/verify', {
+      const response = await fetch('/api/otp/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, code: otpCode, purpose: 'registration' }),
@@ -285,8 +285,8 @@ const RegistrationModalMD = ({ open, onClose, onSuccess }: RegistrationModalProp
     try {
       // Use formData.id which should have the correct ID from OTP verification
       const url = formData.id 
-        ? `http://localhost:8080/api/alumni/${formData.id}`
-        : 'http://localhost:8080/api/alumni'
+        ? `/api/alumni/${formData.id}`
+        : '/api/alumni'
       
       const method = formData.id ? 'PUT' : 'POST'
       

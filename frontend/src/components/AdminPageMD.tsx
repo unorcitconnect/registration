@@ -124,7 +124,7 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
   const fetchDashboardData = async () => {
     setLoading(true)
     try {
-      const response = await fetch('http://localhost:8080/api/admin/dashboard')
+      const response = await fetch('/api/admin/dashboard')
       if (response.ok) {
         const data = await response.json()
         setAlumni(data.alumni || [])
@@ -140,7 +140,7 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
 
   const fetchSponsorships = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/sponsorships')
+      const response = await fetch('/api/sponsorships')
       if (response.ok) {
         const data = await response.json()
         setSponsorships(data.sponsorships || [])
@@ -152,7 +152,7 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
 
   const updateSponsorshipConfirmation = async (id: number, confirmed: boolean, feedback: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/sponsorships/${id}/confirm`, {
+      const response = await fetch(`/api/sponsorships/${id}/confirm`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -299,7 +299,7 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
     if (!deleteTarget) return
 
     try {
-      const response = await fetch(`http://localhost:8080/api/${deleteTarget.type === 'alumni' ? 'alumni' : deleteTarget.type === 'nomination' ? 'nominations' : 'sponsorships'}/${deleteTarget.id}`, {
+      const response = await fetch(`/api/${deleteTarget.type === 'alumni' ? 'alumni' : deleteTarget.type === 'nomination' ? 'nominations' : 'sponsorships'}/${deleteTarget.id}`, {
         method: 'DELETE',
       })
 
@@ -686,7 +686,7 @@ const AlumniTab = ({ alumni, searchTerm, onSearchChange, onExport, totalCount, i
                     <Tooltip title="Download payment proof">
                       <IconButton
                         component="a"
-                        href={`http://localhost:8080/api/alumni/${alumnus.ID}/payment-proof`}
+                        href={`/api/alumni/${alumnus.ID}/payment-proof`}
                         target="_blank"
                         rel="noopener noreferrer"
                         size="small"

@@ -71,7 +71,7 @@ const SponsorshipModal = ({ isOpen, onClose, selectedLevel = '' }: SponsorshipMo
     setError('')
 
     try {
-      const response = await fetch('http://localhost:8080/api/otp/send', {
+      const response = await fetch('/api/otp/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ const SponsorshipModal = ({ isOpen, onClose, selectedLevel = '' }: SponsorshipMo
     setError('')
 
     try {
-      const response = await fetch('http://localhost:8080/api/otp/verify', {
+      const response = await fetch('/api/otp/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ const SponsorshipModal = ({ isOpen, onClose, selectedLevel = '' }: SponsorshipMo
       if (response.ok) {
         // Check if sponsorship exists for this email
         try {
-          const sponsorshipResponse = await fetch(`http://localhost:8080/api/sponsorships/email/${encodeURIComponent(email)}`, {
+          const sponsorshipResponse = await fetch(`/api/sponsorships/email/${encodeURIComponent(email)}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ const SponsorshipModal = ({ isOpen, onClose, selectedLevel = '' }: SponsorshipMo
       
       if (existingSponsorship) {
         // Update existing sponsorship
-        response = await fetch(`http://localhost:8080/api/sponsorships/${existingSponsorship.ID}`, {
+        response = await fetch(`/api/sponsorships/${existingSponsorship.ID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -216,7 +216,7 @@ const SponsorshipModal = ({ isOpen, onClose, selectedLevel = '' }: SponsorshipMo
         })
       } else {
         // Create new sponsorship
-        response = await fetch('http://localhost:8080/api/sponsorships', {
+        response = await fetch('/api/sponsorships', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
