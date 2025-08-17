@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardContent,
-  Grid,
   Tabs,
   Tab,
   TextField,
@@ -22,6 +21,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogActions,
   Checkbox,
   FormControlLabel,
   CircularProgress,
@@ -30,7 +30,9 @@ import {
   Container,
   InputAdornment,
   Tooltip,
+  GridLegacy as Grid,
 } from '@mui/material'
+
 import {
   Logout as LogoutIcon,
   People as PeopleIcon,
@@ -46,6 +48,7 @@ import {
   Payment as PaymentIcon,
   LocationOn as LocationIcon,
 } from '@mui/icons-material'
+
 
 interface Alumni {
   ID: number
