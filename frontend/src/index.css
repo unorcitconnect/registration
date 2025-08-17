@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+* {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Light beam animations for hero section */
+@keyframes light-beam-1 {
+  0% {
+    transform: translateX(-100px) skewX(-12deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100vw + 100px)) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes light-beam-2 {
+  0% {
+    transform: translateX(-150px) skewX(-12deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(calc(100vw + 150px)) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes light-beam-3 {
+  0% {
+    transform: translateX(-80px) skewX(-12deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(calc(100vw + 80px)) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+.animate-light-beam-1 {
+  animation: light-beam-1 8s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.animate-light-beam-2 {
+  animation: light-beam-2 12s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-light-beam-3 {
+  animation: light-beam-3 10s ease-in-out infinite;
+  animation-delay: 4s;
+}

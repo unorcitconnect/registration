@@ -1,0 +1,44 @@
+# Development files
+.env
+frontend/.env
+.air.toml
+temp_build/
+
+# Test files
+*_test.go
+test_*.ps1
+test_*.sh
+
+# Node modules (will be installed during build)
+frontend/node_modules/
+node_modules/
+
+# Development artifacts
+frontend/dist/
+*.log
+
+# Git
+.git/
+.gitignore
+
+# Documentation (optional - remove if you want docs in production)
+README.md
+*.md
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files (using Dockerfile.railway instead)
+Dockerfile
+docker-compose.yml
+
+# Package lock files (npm will generate these)
+package-lock.json
+frontend/package-lock.json
