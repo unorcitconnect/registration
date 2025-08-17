@@ -435,8 +435,9 @@ func (s *FiberServer) adminLoginHandler(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Login successful",
 		"admin": fiber.Map{
-			"id":       admin.ID,
-			"username": admin.Username,
+			"id":           admin.ID,
+			"username":     admin.Username,
+			"is_superuser": admin.IsSuperuser,
 		},
 	})
 }
@@ -746,4 +747,44 @@ func (s *FiberServer) uploadPaymentProofHandler(c *fiber.Ctx) error {
 		"filename": file.Filename,
 		"size":     file.Size,
 	})
+}
+
+// Delete Handlers (Superuser only)
+func (s *FiberServer) deleteAlumniHandler(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid alumni ID"})
+	}
+
+	if err := s.db.DeleteAlumni(c.Context(), id); err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"message": "Alumni deleted successfully"})
+}
+
+func (s *FiberServer) deleteNominationHandler(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid nomination ID"})
+	}
+
+	if err := s.db.DeleteNomination(c.Context(), id); err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"message": "Nomination deleted successfully"})
+}
+
+func (s *FiberServer) deleteSponsorshipHandler(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid sponsorship ID"})
+	}
+
+	if err := s.db.DeleteSponsorship(c.Context(), uint(id)); err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"message": "Sponsorship deleted successfully"})
 }

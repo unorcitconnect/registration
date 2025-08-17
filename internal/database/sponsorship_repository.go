@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"time"
 )
 
@@ -26,6 +27,7 @@ type SponsorshipService interface {
 	GetAllSponsorships(ctx context.Context) ([]Sponsorship, error)
 	GetSponsorshipByEmail(ctx context.Context, email string) (*Sponsorship, error)
 	UpdateSponsorship(ctx context.Context, sponsorship *Sponsorship) error
+	DeleteSponsorship(ctx context.Context, id uint) error
 	UpdateSponsorshipConfirmation(ctx context.Context, id uint, confirmed bool, feedback string) error
 	GetSponsorshipStats(ctx context.Context) (map[string]int64, error)
 }
@@ -58,6 +60,17 @@ func (s *service) GetSponsorshipByEmail(ctx context.Context, email string) (*Spo
 
 func (s *service) UpdateSponsorship(ctx context.Context, sponsorship *Sponsorship) error {
 	return s.db.WithContext(ctx).Save(sponsorship).Error
+}
+
+func (s *service) DeleteSponsorship(ctx context.Context, id uint) error {
+	result := s.db.WithContext(ctx).Delete(&Sponsorship{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("sponsorship not found")
+	}
+	return nil
 }
 
 func (s *service) GetSponsorshipStats(ctx context.Context) (map[string]int64, error) {

@@ -57,6 +57,7 @@ type AlumniService interface {
 	FindAlumniByEmail(ctx context.Context, email string) (*Alumni, error)
 	GetAlumniByID(ctx context.Context, id int) (*Alumni, error)
 	SaveAlumni(ctx context.Context, a *Alumni) error
+	DeleteAlumni(ctx context.Context, id int) error
 	GetAlumniWithLocation(ctx context.Context) ([]Alumni, error)
 }
 
@@ -134,6 +135,17 @@ func (s *service) SaveAlumni(ctx context.Context, a *Alumni) error {
 		if err := s.db.WithContext(ctx).Save(a).Error; err != nil {
 			return fmt.Errorf("failed to update alumni: %w", err)
 		}
+	}
+	return nil
+}
+
+func (s *service) DeleteAlumni(ctx context.Context, id int) error {
+	result := s.db.WithContext(ctx).Delete(&Alumni{}, id)
+	if result.Error != nil {
+		return fmt.Errorf("failed to delete alumni: %w", result.Error)
+	}
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("alumni not found")
 	}
 	return nil
 }

@@ -33,6 +33,7 @@ func (Nomination) TableName() string {
 
 type NominationService interface {
 	SaveNomination(ctx context.Context, n *Nomination) error
+	DeleteNomination(ctx context.Context, id int) error
 	FindNominationsByCategory(ctx context.Context, category string) ([]Nomination, error)
 	FindNominationsByCategoryGrouped(ctx context.Context, category string) ([]NomineeGroup, error)
 }
@@ -48,6 +49,17 @@ func (s *service) SaveNomination(ctx context.Context, n *Nomination) error {
 			return fmt.Errorf("you have already submitted a nomination for this category")
 		}
 		return fmt.Errorf("failed to save nomination: %w", err)
+	}
+	return nil
+}
+
+func (s *service) DeleteNomination(ctx context.Context, id int) error {
+	result := s.db.WithContext(ctx).Delete(&Nomination{}, id)
+	if result.Error != nil {
+		return fmt.Errorf("failed to delete nomination: %w", result.Error)
+	}
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("nomination not found")
 	}
 	return nil
 }

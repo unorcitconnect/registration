@@ -61,6 +61,7 @@ function App() {
   const handleAdminLogout = () => {
     localStorage.removeItem('admin_logged_in')
     localStorage.removeItem('admin_username')
+    localStorage.removeItem('admin_is_superuser')
     setIsAdminLoggedIn(false)
   }
 

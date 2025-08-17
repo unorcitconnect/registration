@@ -47,6 +47,7 @@ import {
   Close as CloseIcon,
   Payment as PaymentIcon,
   LocationOn as LocationIcon,
+  Delete as DeleteIcon,
 } from '@mui/icons-material'
 
 
@@ -109,6 +110,11 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
   const [alumniSearchTerm, setAlumniSearchTerm] = useState('')
   const [nominationsSearchTerm, setNominationsSearchTerm] = useState('')
   const [sponsorshipsSearchTerm, setSponsorshipsSearchTerm] = useState('')
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState<{ type: 'alumni' | 'nomination' | 'sponsorship', id: number, name: string } | null>(null)
+
+  // Check if current user is superuser
+  const isSuperuser = localStorage.getItem('admin_is_superuser') === 'true'
 
   useEffect(() => {
     fetchDashboardData()
@@ -283,6 +289,45 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
     setActiveTab(newValue)
   }
 
+  // Delete functions
+  const handleDeleteClick = (type: 'alumni' | 'nomination' | 'sponsorship', id: number, name: string) => {
+    setDeleteTarget({ type, id, name })
+    setDeleteConfirmOpen(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/${deleteTarget.type === 'alumni' ? 'alumni' : deleteTarget.type === 'nomination' ? 'nominations' : 'sponsorships'}/${deleteTarget.id}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        // Refresh data based on type
+        if (deleteTarget.type === 'alumni') {
+          fetchDashboardData()
+        } else if (deleteTarget.type === 'nomination') {
+          fetchDashboardData()
+        } else if (deleteTarget.type === 'sponsorship') {
+          fetchSponsorships()
+        }
+      } else {
+        console.error('Failed to delete:', deleteTarget.type)
+      }
+    } catch (err) {
+      console.error('Failed to delete:', err)
+    } finally {
+      setDeleteConfirmOpen(false)
+      setDeleteTarget(null)
+    }
+  }
+
+  const handleDeleteCancel = () => {
+    setDeleteConfirmOpen(false)
+    setDeleteTarget(null)
+  }
+
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
       {/* Header */}
@@ -451,6 +496,8 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
                     onSearchChange={setAlumniSearchTerm}
                     onExport={exportAlumniToExcel}
                     totalCount={alumni.length}
+                    isSuperuser={isSuperuser}
+                    onDelete={handleDeleteClick}
                   />
                 )}
 
@@ -463,6 +510,8 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
                     onExport={exportNominationsToExcel}
                     totalCount={nominations.length}
                     formatDate={formatDate}
+                    isSuperuser={isSuperuser}
+                    onDelete={handleDeleteClick}
                   />
                 )}
 
@@ -476,6 +525,8 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
                     totalCount={sponsorships.length}
                     formatDate={formatDate}
                     onUpdate={updateSponsorshipConfirmation}
+                    isSuperuser={isSuperuser}
+                    onDelete={handleDeleteClick}
                   />
                 )}
               </>
@@ -483,17 +534,83 @@ const AdminPageMD = ({ onLogout }: AdminPageProps) => {
           </Box>
         </Card>
       </Container>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteConfirmOpen}
+        onClose={handleDeleteCancel}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ 
+          background: 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)',
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1
+        }}>
+          <DeleteIcon />
+          <Typography variant="h6">
+            Confirm Deletion
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={{ mt: 2 }}>
+          {deleteTarget && (
+            <Box>
+              <Typography variant="body1" gutterBottom>
+                Are you sure you want to delete this {deleteTarget.type}?
+              </Typography>
+              <Box sx={{ 
+                p: 2, 
+                backgroundColor: '#ffebee', 
+                borderRadius: 1, 
+                border: '1px solid #ffcdd2',
+                mt: 2
+              }}>
+                <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                  {deleteTarget.type === 'alumni' && 'Alumni: '}
+                  {deleteTarget.type === 'nomination' && 'Nomination for: '}
+                  {deleteTarget.type === 'sponsorship' && 'Sponsorship from: '}
+                  {deleteTarget.name}
+                </Typography>
+              </Box>
+              <Typography variant="body2" color="error" sx={{ mt: 2, fontWeight: 'medium' }}>
+                ⚠️ This action cannot be undone!
+              </Typography>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ p: 3, gap: 1 }}>
+          <Button
+            onClick={handleDeleteCancel}
+            variant="outlined"
+            color="inherit"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleDeleteConfirm}
+            variant="contained"
+            color="error"
+            startIcon={<DeleteIcon />}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   )
 }
 
 // Alumni Tab Component
-const AlumniTab = ({ alumni, searchTerm, onSearchChange, onExport, totalCount }: {
+const AlumniTab = ({ alumni, searchTerm, onSearchChange, onExport, totalCount, isSuperuser, onDelete }: {
   alumni: Alumni[]
   searchTerm: string
   onSearchChange: (term: string) => void
   onExport: () => void
   totalCount: number
+  isSuperuser: boolean
+  onDelete: (type: 'alumni' | 'nomination' | 'sponsorship', id: number, name: string) => void
 }) => (
   <Box>
     {/* Search and Export Controls */}
@@ -564,24 +681,37 @@ const AlumniTab = ({ alumni, searchTerm, onSearchChange, onExport, totalCount }:
                 />
               </TableCell>
               <TableCell>
-                {alumnus.Paid && alumnus.PaymentProofData && alumnus.PaymentProofData.length > 0 ? (
-                  <Tooltip title="Download payment proof">
-                    <IconButton
-                      component="a"
-                      href={`http://localhost:8080/api/alumni/${alumnus.ID}/payment-proof`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      size="small"
-                      color="primary"
-                    >
-                      <DownloadIcon />
-                    </IconButton>
-                  </Tooltip>
-                ) : (
-                  <Typography variant="caption" color="text.secondary">
-                    No attachment
-                  </Typography>
-                )}
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  {alumnus.Paid && alumnus.PaymentProofData && alumnus.PaymentProofData.length > 0 ? (
+                    <Tooltip title="Download payment proof">
+                      <IconButton
+                        component="a"
+                        href={`http://localhost:8080/api/alumni/${alumnus.ID}/payment-proof`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        size="small"
+                        color="primary"
+                      >
+                        <DownloadIcon />
+                      </IconButton>
+                    </Tooltip>
+                  ) : (
+                    <Typography variant="caption" color="text.secondary">
+                      No attachment
+                    </Typography>
+                  )}
+                  {isSuperuser && (
+                    <Tooltip title="Delete alumni">
+                      <IconButton
+                        size="small"
+                        color="error"
+                        onClick={() => onDelete('alumni', alumnus.ID, `${alumnus.FirstName} ${alumnus.LastName}`)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </Box>
               </TableCell>
             </TableRow>
           ))}
@@ -592,13 +722,15 @@ const AlumniTab = ({ alumni, searchTerm, onSearchChange, onExport, totalCount }:
 )
 
 // Nominations Tab Component
-const NominationsTab = ({ nominations, searchTerm, onSearchChange, onExport, totalCount, formatDate }: {
+const NominationsTab = ({ nominations, searchTerm, onSearchChange, onExport, totalCount, formatDate, isSuperuser, onDelete }: {
   nominations: Nomination[]
   searchTerm: string
   onSearchChange: (term: string) => void
   onExport: () => void
   totalCount: number
   formatDate: (date: string) => string
+  isSuperuser: boolean
+  onDelete: (type: 'alumni' | 'nomination' | 'sponsorship', id: number, name: string) => void
 }) => (
   <Box>
     {/* Search and Export Controls */}
@@ -640,6 +772,7 @@ const NominationsTab = ({ nominations, searchTerm, onSearchChange, onExport, tot
             <TableCell>Year</TableCell>
             <TableCell>Nominator</TableCell>
             <TableCell>Date</TableCell>
+            {isSuperuser && <TableCell>Actions</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -663,6 +796,19 @@ const NominationsTab = ({ nominations, searchTerm, onSearchChange, onExport, tot
                   {formatDate(nomination.CreatedAt)}
                 </Typography>
               </TableCell>
+              {isSuperuser && (
+                <TableCell>
+                  <Tooltip title="Delete nomination">
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => onDelete('nomination', nomination.ID, `${nomination.FirstName} ${nomination.LastName}`)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
@@ -672,7 +818,7 @@ const NominationsTab = ({ nominations, searchTerm, onSearchChange, onExport, tot
 )
 
 // Sponsorships Tab Component
-const SponsorshipsTab = ({ sponsorships, searchTerm, onSearchChange, onExport, totalCount, formatDate, onUpdate }: {
+const SponsorshipsTab = ({ sponsorships, searchTerm, onSearchChange, onExport, totalCount, formatDate, onUpdate, isSuperuser, onDelete }: {
   sponsorships: Sponsorship[]
   searchTerm: string
   onSearchChange: (term: string) => void
@@ -680,6 +826,8 @@ const SponsorshipsTab = ({ sponsorships, searchTerm, onSearchChange, onExport, t
   totalCount: number
   formatDate: (date: string) => string
   onUpdate: (id: number, confirmed: boolean, feedback: string) => void
+  isSuperuser: boolean
+  onDelete: (type: 'alumni' | 'nomination' | 'sponsorship', id: number, name: string) => void
 }) => {
   const [selectedSponsorship, setSelectedSponsorship] = useState<Sponsorship | null>(null)
   const [editingId, setEditingId] = useState<number | null>(null)
@@ -842,6 +990,17 @@ const SponsorshipsTab = ({ sponsorships, searchTerm, onSearchChange, onExport, t
                           color="primary"
                         >
                           <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                    {isSuperuser && (
+                      <Tooltip title="Delete sponsorship">
+                        <IconButton
+                          size="small"
+                          color="error"
+                          onClick={() => onDelete('sponsorship', sponsorship.ID, `${sponsorship.FirstName} ${sponsorship.LastName}`)}
+                        >
+                          <DeleteIcon />
                         </IconButton>
                       </Tooltip>
                     )}

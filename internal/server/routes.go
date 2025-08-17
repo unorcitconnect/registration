@@ -57,6 +57,11 @@ func (s *FiberServer) RegisterFiberRoutes() {
 	api.Post("/admin/create", s.createAdminHandler)
 	api.Get("/admin/dashboard", s.adminDashboardHandler)
 
+	// Delete routes (Superuser only)
+	api.Delete("/alumni/:id", s.deleteAlumniHandler)
+	api.Delete("/nominations/:id", s.deleteNominationHandler)
+	api.Delete("/sponsorships/:id", s.deleteSponsorshipHandler)
+
 	// Sponsorship routes
 	api.Post("/sponsorships", s.createSponsorshipHandler)
 	api.Get("/sponsorships", s.getAllSponsorshipsHandler)

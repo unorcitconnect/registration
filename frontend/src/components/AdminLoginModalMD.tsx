@@ -62,6 +62,7 @@ const AdminLoginModalMD = ({ open, onClose, onLoginSuccess }: AdminLoginModalPro
         // Store admin session (in a real app, you'd use proper session management)
         localStorage.setItem('admin_logged_in', 'true')
         localStorage.setItem('admin_username', data.admin.username)
+        localStorage.setItem('admin_is_superuser', data.admin.is_superuser.toString())
         onLoginSuccess()
         onClose()
       } else {
