@@ -28,7 +28,7 @@ const successStories: SuccessStory[] = [
     "company": "Advanced World Solutions, Inc.",
     "story": "The programming activities practiced in school come in handy since I have been assigned to projects with different domains used. The ethics taught to us were also really applicable in the workplace, and really helped me discern how to behave inside the office.",
     "achievements": [],
-    "image": "public/images/quincyanne_tampo.jpg",
+    "image": "/images/quincyanne_tampo.jpg",
     "linkedIn": ""
   },
   {
@@ -43,7 +43,7 @@ const successStories: SuccessStory[] = [
       "Google Ambassador",
       "Co-founded Shiftrē Digital Co"
     ],
-    "image": "public/images/shad_roi_delacruz.jpg",
+    "image": "/images/shad_roi_delacruz.jpg",
     "linkedIn": ""
   },
   {
@@ -55,7 +55,7 @@ const successStories: SuccessStory[] = [
     "company": "Advanced World Solutions, Inc.",
     "story": "The ability to effectively deliver outputs considering time and resource constraints, understanding clients’ needs and perspective when dealing with a project, and being passionate about communication and innovation to succeed. I learned to be a more functional and self-sustained individual.",
     "achievements": [],
-    "image": "public/images/shemamee_clavecillas.jpg",
+    "image": "/images/shemamee_clavecillas.jpg",
     "linkedIn": ""
   },
   {
@@ -67,7 +67,7 @@ const successStories: SuccessStory[] = [
     "company": "Hewlett Packard Enterprise",
     "story": "My program of study had provided me with opportunities to improve things and find ways through innovation. Social connections, business processes, automating tasks, setting goals and the right attitude were learned from school and applied in my current assignments.",
     "achievements": [],
-    "image": "public/images/ralph_palomar.jpg",
+    "image": "/images/ralph_palomar.jpg",
     "linkedIn": ""
   },
   {
@@ -79,7 +79,7 @@ const successStories: SuccessStory[] = [
     "company": "Advanced World Solutions, Inc.",
     "story": "I am still able to apply the learning I had during college in my workplace. Courses like database management and programming were really helpful... have more technical knowledge to give you the kind of head start.",
     "achievements": [],
-    "image": "public/images/john_mari_asuncion.jpg",
+    "image": "/images/john_mari_asuncion.jpg",
     "linkedIn": ""
   },
   {
@@ -91,7 +91,7 @@ const successStories: SuccessStory[] = [
     "company": "Hewlett Packard - Singapore",
     "story": "The UNO-Recoletos College of Information Technology had equipped me with sufficient knowledge on the different programming languages, automata theory and the software development life cycle which had helped me in performing varied tasks in my workplace.",
     "achievements": [],
-    "image": "public/images/milmar_tan.jpg",
+    "image": "/images/milmar_tan.jpg",
     "linkedIn": ""
   }
 ]
